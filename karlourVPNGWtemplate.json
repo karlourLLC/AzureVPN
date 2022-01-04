@@ -1,0 +1,67 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworkGateways_KarlourCoreNetGW_name": {
+            "defaultValue": "KarlourCoreNetGW",
+            "type": "String"
+        },
+        "publicIPAddresses_KarlourCoreNetGWPip_externalid": {
+            "defaultValue": "/subscriptions/276099f5-457d-4208-9ff6-6eab6f1dca3c/resourceGroups/KarlourNet/providers/Microsoft.Network/publicIPAddresses/KarlourCoreNetGWPip",
+            "type": "String"
+        },
+        "virtualNetworks_KarlourCoreNet_externalid": {
+            "defaultValue": "/subscriptions/276099f5-457d-4208-9ff6-6eab6f1dca3c/resourceGroups/KarlourNet/providers/Microsoft.Network/virtualNetworks/KarlourCoreNet",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('virtualNetworkGateways_KarlourCoreNetGW_name')]",
+            "location": "eastus",
+            "tags": {
+                "CostCenter": "KarlourLLCHQ"
+            },
+            "properties": {
+                "enablePrivateIpAddress": false,
+                "ipConfigurations": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[parameters('publicIPAddresses_KarlourCoreNetGWPip_externalid')]"
+                            },
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_KarlourCoreNet_externalid'), '/subnets/GatewaySubnet')]"
+                            }
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "Basic",
+                    "tier": "Basic"
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": false,
+                "activeActive": false,
+                "bgpSettings": {
+                    "asn": 65515,
+                    "bgpPeeringAddress": "10.0.255.30",
+                    "peerWeight": 0,
+                    "bgpPeeringAddresses": [
+                        {
+                            "ipconfigurationId": "[concat(resourceId('Microsoft.Network/virtualNetworkGateways', parameters('virtualNetworkGateways_KarlourCoreNetGW_name')), '/ipConfigurations/default')]",
+                            "customBgpIpAddresses": []
+                        }
+                    ]
+                },
+                "vpnGatewayGeneration": "Generation1"
+            }
+        }
+    ]
+}

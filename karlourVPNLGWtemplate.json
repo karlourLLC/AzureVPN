@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "localNetworkGateways_KarlourVPNLawrence_name": {
+            "defaultValue": "KarlourVPNLawrence",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/localNetworkGateways",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('localNetworkGateways_KarlourVPNLawrence_name')]",
+            "location": "eastus",
+            "tags": {
+                "CostCenter": "KarlourLLCHQ"
+            },
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "192.168.6.0/24"
+                    ]
+                },
+                "fqdn": "eaglesnest.karlour.com"
+            }
+        }
+    ]
+}

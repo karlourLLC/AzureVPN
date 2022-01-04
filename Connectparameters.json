@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_KarlourAzure2Lawrence_name": {
+            "value": null
+        },
+        "virtualNetworkGateways_KarlourCoreNetGW_externalid": {
+            "value": null
+        },
+        "localNetworkGateways_KarlourVPNLawrence_externalid": {
+            "value": null
+        }
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_KarlourAzure2Lawrence_name": {
+            "defaultValue": "KarlourAzure2Lawrence",
+            "type": "String"
+        },
+        "virtualNetworkGateways_KarlourCoreNetGW_externalid": {
+            "defaultValue": "/subscriptions/276099f5-457d-4208-9ff6-6eab6f1dca3c/resourceGroups/KarlourNet/providers/Microsoft.Network/virtualNetworkGateways/KarlourCoreNetGW",
+            "type": "String"
+        },
+        "localNetworkGateways_KarlourVPNLawrence_externalid": {
+            "defaultValue": "/subscriptions/276099f5-457d-4208-9ff6-6eab6f1dca3c/resourceGroups/KarlourNet/providers/Microsoft.Network/localNetworkGateways/KarlourVPNLawrence",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/connections",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('connections_KarlourAzure2Lawrence_name')]",
+            "location": "eastus",
+            "tags": {
+                "CostCenter": "KarlourLLCHQ"
+            },
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[parameters('virtualNetworkGateways_KarlourCoreNetGW_externalid')]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[parameters('localNetworkGateways_KarlourVPNLawrence_externalid')]"
+                },
+                "connectionType": "IPsec",
+                "connectionProtocol": "IKEv2",
+                "routingWeight": 0,
+                "sharedKey": "Phoerena12345",
+                "enableBgp": false,
+                "useLocalAzureIpAddress": false,
+                "usePolicyBasedTrafficSelectors": false,
+                "ipsecPolicies": [],
+                "trafficSelectorPolicies": [],
+                "expressRouteGatewayBypass": false,
+                "dpdTimeoutSeconds": 0,
+                "connectionMode": "Default"
+            }
+        }
+    ]
+}
